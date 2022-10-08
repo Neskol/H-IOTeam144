@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Neskol\\source\\repos\\H-IOTeam144\\H-IOTeam144.csproj": {}
+    "/Users/neskol/source/repos/H-IOTeam144/H-IOTeam144.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Neskol\\source\\repos\\H-IOTeam144\\H-IOTeam144.csproj": {
+    "/Users/neskol/source/repos/H-IOTeam144/H-IOTeam144.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Neskol\\source\\repos\\H-IOTeam144\\H-IOTeam144.csproj",
+        "projectUniqueName": "/Users/neskol/source/repos/H-IOTeam144/H-IOTeam144.csproj",
         "projectName": "H-IOTeam144",
-        "projectPath": "C:\\Users\\Neskol\\source\\repos\\H-IOTeam144\\H-IOTeam144.csproj",
-        "packagesPath": "C:\\Users\\Neskol\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Neskol\\source\\repos\\H-IOTeam144\\obj\\",
+        "projectPath": "/Users/neskol/source/repos/H-IOTeam144/H-IOTeam144.csproj",
+        "packagesPath": "/Users/neskol/.nuget/packages/",
+        "outputPath": "/Users/neskol/source/repos/H-IOTeam144/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Neskol\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/neskol/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,23 +43,7 @@
               "version": "[2.1.0, )"
             }
           },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/RuntimeIdentifierGraph.json"
         }
       }
     }

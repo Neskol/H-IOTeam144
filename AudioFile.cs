@@ -6,15 +6,15 @@ namespace AudioCorrelation
 {
     public class AudioFile : IAudioFile
     {
-        private double length;
+        private TimeSpan length; //Time span is a system structure used to store time*
         private int samples;
         private double[]? dbs;
-        private AudioFileReader audioFile;
+        private Mp3FileReader audioFile;
 
         public AudioFile(string location,int samples)
         {
-            audioFile = new AudioFileReader(location);
-            length = audioFile.Length;
+            audioFile = new Mp3FileReader(location);
+            length = audioFile.TotalTime;
             this.Update();
         }
 

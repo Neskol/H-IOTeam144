@@ -1,0 +1,15 @@
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/H-IOTeam144
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/H-IOTeam144.deps.json
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/H-IOTeam144.runtimeconfig.json
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/H-IOTeam144.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/H-IOTeam144.pdb
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.csproj.AssemblyReference.cache
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.GeneratedMSBuildEditorConfig.editorconfig
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.AssemblyInfoInputs.cache
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.AssemblyInfo.cs
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.csproj.CoreCompileInputs.cache
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.dll
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/refint/H-IOTeam144.dll
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.pdb
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.genruntimeconfig.cache
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/ref/H-IOTeam144.dll

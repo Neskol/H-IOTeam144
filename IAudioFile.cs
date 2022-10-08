@@ -9,8 +9,9 @@ namespace AudioCorrelation
         /// <summary>
         /// Returns the dictionary of the time stamps of control points
         /// </summary>
+        /// <values>Each of the elements double in list is the time stamp of control points</values>
         /// <returns>A dictionary of <Time,Dbs> which time is in seconds, dbs is the volume in dbs</returns>
-        Dictionary<double, double> GetTimeStamp();
+        List<double> GetTimeStampList();
 
         /// <summary>
         /// Updates the Audio file and build up entities for compiling

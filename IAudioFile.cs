@@ -21,8 +21,8 @@ namespace AudioCorrelation
         /// <summary>
         /// Calculates the volume of given segment of audio file
         /// </summary>
-        /// <param name="segments">The segment of the music to calculate on</param>
+        /// <param name="buffer">The segment of the music to calculate on</param>
         /// <returns>The volume of corresponding music segment in db</returns>
-        double CalculateDbs(string segments);
+        double CalculateDbs(byte[] buffer);
     }
 }

@@ -76,7 +76,7 @@ namespace AudioCorrelation
             this.Update();
         }
 
-        public double CalculateDbs(string segments)
+        public double CalculateDbs(byte[] buffer)
         {
             throw new NotImplementedException();
         }

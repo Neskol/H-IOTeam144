@@ -8,19 +8,14 @@ namespace AudioCorrelation
     {
         private double length;
         private int samples;
-        private double[] dbs;
+        private double[]? dbs;
         private AudioFileReader audioFile;
-
-        public AudioFile()
-        {
-
-        }
 
         public AudioFile(string location,int samples)
         {
             audioFile = new AudioFileReader(location);
             length = audioFile.Length;
-            this.samples = samples;
+            this.Update();
         }
 
         public double CalculateDbs(string segments)

@@ -13,3 +13,10 @@
 /Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.pdb
 /Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.genruntimeconfig.cache
 /Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/ref/H-IOTeam144.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.Asio.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.Core.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.Midi.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.Wasapi.dll
+/Users/neskol/source/repos/H-IOTeam144/bin/Debug/net6.0/NAudio.WinMM.dll
+/Users/neskol/source/repos/H-IOTeam144/obj/Debug/net6.0/H-IOTeam144.csproj.CopyComplete

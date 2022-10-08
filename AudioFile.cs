@@ -6,7 +6,7 @@ namespace AudioCorrelation
 {
     public class AudioFile : IAudioFile
     {
-        private double length; //Time span is a system structure used to store time*
+        private double length;
         private int sampleRates;
         private double interval = 50;
         private double sensitivity = 1;
@@ -14,9 +14,9 @@ namespace AudioCorrelation
         private Mp3FileReader audioFile;
 
         /// <summary>
-        /// Access the total length of the music file
+        /// Access the total length of the music file in seconds
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Total seconds of the music</returns>
         public double Length
         {
             get

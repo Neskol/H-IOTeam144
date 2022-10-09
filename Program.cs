@@ -9,10 +9,10 @@ using NAudio;
 using NAudio.Utils;
 using NAudio.Wave;
 
-AudioFile test = new AudioFile(@"C:\Users\Neskol\Documents\BWV1047_02.mp3", 48000);
+AudioFile test = new AudioFile(@"C:\Users\Neskol\Documents\TestCases\044-リズと青い鳥 第三楽章「愛ゆえの決断」_01.mp3", 48000);
 StreamWriter sw = new StreamWriter("../../../analyse.txt", false,System.Text.Encoding.Unicode);
 
-AudioFile test2 = new AudioFile(@"C:\Users\Neskol\Documents\BWV1047_01.mp3", 48000);
+AudioFile test2 = new AudioFile(@"C:\Users\Neskol\Documents\TestCases\Liz und ein BlauerVogel M3.mp3", 48000);
 StreamWriter sw2= new StreamWriter("../../../analyse2.txt", false, System.Text.Encoding.Unicode);
 
 

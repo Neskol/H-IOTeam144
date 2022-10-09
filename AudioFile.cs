@@ -6,15 +6,16 @@ using NAudio.Wave;
 
 namespace AudioCorrelation
 {
-    public class AudioFile : IAudioFile
+    public class AudioFile /*: IAudioFile*/
     {
         private double length;
         private int sampleRates;
         private int interval = 5;
         private double sensitivity = 10;
+        public List<double> volumesList = new();
         private List<double> rawInputPoints;
         private List<double> samplePoints;
-        private List<double> controlPoints;
+        private HashSet<double> controlPoints;
         private Mp3FileReader audioFile;
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace AudioCorrelation
         /// <summary>
         /// Access to the final control points we will output later
         /// </summary>
-        public List <double> ControlPoints
+        public HashSet <double> ControlPoints
         {
             get { return this.controlPoints; }
             set
@@ -114,13 +115,14 @@ namespace AudioCorrelation
             this.sampleRates = sampleRates;
             this.rawInputPoints = new List<double>();
             this.samplePoints = new List<double>();
-            this.controlPoints = new List<double>();
+            this.volumesList = new();
+            this.controlPoints = new HashSet<double>();
             this.Update();
         }
 
         public double CalculateDbs(byte[] buffer)
         {
-            const int START_INDEX = 0;
+            int START_INDEX = 0;
             const double TWO_POW_16 = 32768.0;
             short bitNum = BitConverter.ToInt16(buffer, START_INDEX);
             double volume = Math.Abs(bitNum / TWO_POW_16);
@@ -132,25 +134,41 @@ namespace AudioCorrelation
             return decibels;
         }
 
-        public List<double> GetTimeStampList()
+        public double CalculateVolumes(byte[] buffer)
         {
-            for(int i = 0; i < SamplePoints.Count/Sensitivity; i++){
-                double max = 0.0;
-                double timeOfMax = 0.0;
-                for(int j = 0; j < Sensitivity; j++){
-                    double val = (samplePoints[i + j + 1]) - samplePoints[i + j];
-                    double time = (10*i + j) * (1000.0 / sampleRates) * interval*sensitivity;
-                    double result =val/100;
-                    if(max <= result){
-                        max = result;
-                        timeOfMax = time;
-                        Console.WriteLine(10*i + " " + j + " " + (1000.0/sampleRates) + " " + interval + " " + sensitivity + "=" + (10 * i + j) * (1000.0 / sampleRates) * interval * sensitivity);
-                        Console.WriteLine((samplePoints[i + j + 1]) + " " + samplePoints[i + j]);
-                    } 
+            int START_INDEX = 0;
+            const double TWO_POW_16 = 32768.0;
+            short bitNum = BitConverter.ToInt16(buffer, START_INDEX);
+            double volume = Math.Abs(bitNum / TWO_POW_16);
+            return volume;
+        }
+
+        public HashSet<double> GetTimeStampList()
+        {
+            //for(int i = 0; i < SamplePoints.Count/Sensitivity; i++){
+            //    double max = 0.0;
+            //    double timeOfMax = 0.0;
+            //    for(int j = 0; j < Sensitivity; j++){
+            //        double val = (samplePoints[i + j + 1]) - samplePoints[i + j];
+            //        double time = (10*i + j) * (1000.0 / sampleRates) * interval*sensitivity;
+            //        double result =val/100;
+            //        if(max <= result){
+            //            max = result;
+            //            timeOfMax = time;
+            //        } 
+            //    }
+            //    controlPoints.Add(timeOfMax);
+            //    max = 0.0;
+            //    timeOfMax = 0.0;
+            //}
+
+            for (int index = 0; index< this.SamplePoints.Count;index++)
+            {
+                if (this.SamplePoints[index]==0)
+                {
+                    double time = (index) * (1000.0 / sampleRates) * interval * sensitivity;
+                    controlPoints.Add(time);
                 }
-                controlPoints.Add(timeOfMax);
-                max = 0.0;
-                timeOfMax = 0.0;
             }
             return controlPoints;
         }
@@ -168,16 +186,17 @@ namespace AudioCorrelation
                 bytesRead = this.audioFile.Read(buffer, 0, buffer.Length);
                 double calculatedDb = Math.Abs(CalculateDbs(buffer));
                 this.rawInputPoints.Add(calculatedDb);
+                this.volumesList.Add(CalculateVolumes(buffer));
                 if (count % interval == 0)
                 {
-                    this.SamplePoints.Add(calculatedDb);
+                    this.SamplePoints.Add(CalculateVolumes(buffer));
                 }
                 total += bytesRead;
                 count++;
             } while (bytesRead > 0);
             //Debug.WriteLine(String.Format("Read {0} bytes", total));
-            Console.WriteLine("Total Raw Points: "+ this.rawInputPoints.Count);
-            Console.WriteLine("Total Sample Points: " + this.samplePoints.Count);
+            //Console.WriteLine("Total Raw Points: "+ this.rawInputPoints.Count);
+            //Console.WriteLine("Total Sample Points: " + this.samplePoints.Count);
             this.GetTimeStampList();
         }
     }

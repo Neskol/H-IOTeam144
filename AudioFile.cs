@@ -10,7 +10,8 @@ namespace AudioCorrelation
         private int sampleRates;
         private double interval = 50;
         private double sensitivity = 1;
-        private double[]? dbs;
+        private List<double> samplePoints;
+        private List<double> controlPoints;
         private Mp3FileReader audioFile;
 
         /// <summary>
@@ -66,13 +67,38 @@ namespace AudioCorrelation
                 this.sensitivity = value;
             }
         }
+        
+        /// <summary>
+        /// Access to the sample points we resampled from the music
+        /// </summary>
+        public List<double> SamplePoints
+        {
+            get { return this.samplePoints; }
+            set
+            {
+                this.samplePoints = value;
+            }
+        }
+
+        /// <summary>
+        /// Access to the final control points we will output later
+        /// </summary>
+        public List <double> ControlPoints
+        {
+            get { return this.controlPoints; }
+            set
+            {
+                this.controlPoints = value;
+            }
+        }
 
         public AudioFile(string location,int sampleRates)
         {
             audioFile = new Mp3FileReader(location);
             length = audioFile.TotalTime.TotalSeconds;
             this.sampleRates = sampleRates;
-
+            this.samplePoints = new List<double>();
+            this.controlPoints = new List<double>();
             this.Update();
         }
 
@@ -88,7 +114,7 @@ namespace AudioCorrelation
 
         public void Update()
         {
-            throw new NotImplementedException();
+            this.GetTimeStampList();
         }
     }
 }

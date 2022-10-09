@@ -26,8 +26,8 @@ using (Mp3FileReader reader = new Mp3FileReader("/Users/Neskol/MaiAnalysis/Sound
     do
     {
         bytesRead = reader.Read(buffer, 0, buffer.Length);
-        short sample32Bit = BitConverter.ToInt16(buffer, index);
-        double volume = Math.Abs(sample32Bit / 32768.0);
+        short sample16Bit = BitConverter.ToInt16(buffer, index);
+        double volume = Math.Abs(sample16Bit / 32768.0);
         double decibels = 20 * Math.Log10(volume);
         if (count % interval ==0)
         {

@@ -14,8 +14,8 @@ namespace AudioCorrelation
         private double sensitivity = 10;
         public List<double> volumesList = new();
         private List<double> rawInputPoints;
-        private List<double> samplePoints;
-        private HashSet<double> controlPoints;
+        private Dictionary<double,double> samplePoints;
+        private List<double> controlPoints;
         private Mp3FileReader audioFile;
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AudioCorrelation
         /// <summary>
         /// Access to the sample points we resampled from the music
         /// </summary>
-        public List<double> SamplePoints
+        public Dictionary<double,double> SamplePoints
         {
             get { return this.samplePoints; }
             set
@@ -99,7 +99,7 @@ namespace AudioCorrelation
         /// <summary>
         /// Access to the final control points we will output later
         /// </summary>
-        public HashSet <double> ControlPoints
+        public List<double> ControlPoints
         {
             get { return this.controlPoints; }
             set
@@ -114,9 +114,9 @@ namespace AudioCorrelation
             this.length = audioFile.TotalTime.TotalSeconds;
             this.sampleRates = sampleRates;
             this.rawInputPoints = new List<double>();
-            this.samplePoints = new List<double>();
+            this.samplePoints = new Dictionary<double,double>();
             this.volumesList = new();
-            this.controlPoints = new HashSet<double>();
+            this.controlPoints = new List<double>();
             this.Update();
         }
 
@@ -143,7 +143,7 @@ namespace AudioCorrelation
             return volume;
         }
 
-        public HashSet<double> GetTimeStampList()
+        public List<double> GetTimeStampList()
         {
             //for(int i = 0; i < SamplePoints.Count/Sensitivity; i++){
             //    double max = 0.0;
@@ -162,13 +162,9 @@ namespace AudioCorrelation
             //    timeOfMax = 0.0;
             //}
 
-            for (int index = 0; index< this.SamplePoints.Count;index++)
+            foreach(KeyValuePair<double,double>p in this.SamplePoints)
             {
-                if (this.SamplePoints[index]==0)
-                {
-                    double time = (index) * (1000.0 / sampleRates) * interval * sensitivity;
-                    controlPoints.Add(time);
-                }
+                this.controlPoints.Add(p.Key);
             }
             return controlPoints;
         }
@@ -189,7 +185,7 @@ namespace AudioCorrelation
                 this.volumesList.Add(CalculateVolumes(buffer));
                 if (count % interval == 0)
                 {
-                    this.SamplePoints.Add(CalculateVolumes(buffer));
+                    this.SamplePoints.Add(count*(1000.0/sampleRates),CalculateVolumes(buffer));
                 }
                 total += bytesRead;
                 count++;

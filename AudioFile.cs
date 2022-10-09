@@ -1,4 +1,6 @@
 using System;
+using System.Reflection.PortableExecutable;
+
 using NAudio;
 using NAudio.Wave;
 
@@ -135,7 +137,24 @@ namespace AudioCorrelation
 
         public void Update()
         {
-             this.GetTimeStampList();
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            int total = 0;
+            int count = 0;
+            int interval = 50;
+            this.SamplePoints = new();
+            do
+            {
+                bytesRead = this.audioFile.Read(buffer, 0, buffer.Length);
+                if (count % interval == 0)
+                {
+                    this.SamplePoints.Add(Math.Abs(CalculateDbs(buffer)));
+                }
+                total += bytesRead;
+                count++;
+            } while (bytesRead > 0);
+            //Debug.WriteLine(String.Format("Read {0} bytes", total));
+            this.GetTimeStampList();
         }
     }
 }

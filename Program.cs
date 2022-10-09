@@ -7,15 +7,25 @@ using NAudio;
 using NAudio.Utils;
 using NAudio.Wave;
 
+double CalculateDbs(byte[] buffer)
+        {
+            const int START_INDEX = 0;
+            const double TWO_POW_16 = 32768.0;
+            short bitNum = BitConverter.ToInt16(buffer, START_INDEX);
+            double volume = Math.Abs(bitNum / TWO_POW_16);
+            double decibels = 20 * Math.Log10(volume);
+            return decibels;
+        }
+
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
-Mp3FileReader reader2 = new Mp3FileReader("/Users/Neskol/MaiAnalysis/Sound/music000834.mp3");
+Mp3FileReader reader2 = new Mp3FileReader("/Users/Quinton/H-IOTeam144/music000834.mp3");
 Console.WriteLine(reader2.TotalTime);
 List<double> dbs = new List<double>();
 
 WaveStream stream = reader2 as WaveStream;
 Console.WriteLine(stream.WaveFormat);
-using (Mp3FileReader reader = new Mp3FileReader("/Users/Neskol/MaiAnalysis/Sound/music000834.mp3"))
+using (Mp3FileReader reader = new Mp3FileReader("/Users/Quinton/H-IOTeam144/music000834.mp3"))
 {
     byte[] buffer = new byte[4096];
     int bytesRead;
@@ -26,12 +36,9 @@ using (Mp3FileReader reader = new Mp3FileReader("/Users/Neskol/MaiAnalysis/Sound
     do
     {
         bytesRead = reader.Read(buffer, 0, buffer.Length);
-        short sample32Bit = BitConverter.ToInt16(buffer, index);
-        double volume = Math.Abs(sample32Bit / 32768.0);
-        double decibels = 20 * Math.Log10(volume);
         if (count % interval ==0)
         {
-            dbs.Add(Math.Abs(decibels));
+            dbs.Add(Math.Abs(CalculateDbs(buffer)));
         }
         total += bytesRead;
         count++;
@@ -39,7 +46,7 @@ using (Mp3FileReader reader = new Mp3FileReader("/Users/Neskol/MaiAnalysis/Sound
     //Debug.WriteLine(String.Format("Read {0} bytes", total));
 }
 
-StreamWriter sw = new StreamWriter("../../../data/analyse.txt",false,System.Text.Encoding.Unicode);
+StreamWriter sw = new StreamWriter("/Users/Quinton/H-IOTeam144/dataanalyse.txt",false,System.Text.Encoding.Unicode);
 foreach (double x in dbs)
 {
     Console.WriteLine(x);

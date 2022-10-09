@@ -104,7 +104,12 @@ namespace AudioCorrelation
 
         public double CalculateDbs(byte[] buffer)
         {
-            throw new NotImplementedException();
+            const int START_INDEX = 0;
+            const double TWO_POW_16 = 32768.0;
+            short bitNum = BitConverter.ToInt16(buffer, START_INDEX);
+            double volume = Math.Abs(bitNum / TWO_POW_16);
+            double decibels = 20 * Math.Log10(volume);
+            return decibels;
         }
 
         public List<double> GetTimeStampList()

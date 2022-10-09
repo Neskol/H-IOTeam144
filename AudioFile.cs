@@ -10,8 +10,9 @@ namespace AudioCorrelation
     {
         private double length;
         private int sampleRates;
-        private double interval = 50;
-        private double sensitivity = 1;
+        private int interval = 5;
+        private double sensitivity = 10;
+        private List<double> rawInputPoints;
         private List<double> samplePoints;
         private List<double> controlPoints;
         private Mp3FileReader audioFile;
@@ -24,7 +25,7 @@ namespace AudioCorrelation
         {
             get
             {
-                return this.Length;
+                return this.length;
             }
         }
 
@@ -43,7 +44,7 @@ namespace AudioCorrelation
         /// Access the interval for us to evaluate otherwise 2ms will be too small.
         /// </summary>
         /// <return>Actual interval/Sample interval</return>
-        public double Interval
+        public int Interval
         {
             get
             {
@@ -83,6 +84,18 @@ namespace AudioCorrelation
         }
 
         /// <summary>
+        /// Access to the raw sample points from the music
+        /// </summary>
+        public List<double> RawPoints
+        {
+            get { return this.rawInputPoints; }
+            set
+            {
+                this.rawInputPoints = value;
+            }
+        }
+
+        /// <summary>
         /// Access to the final control points we will output later
         /// </summary>
         public List <double> ControlPoints
@@ -97,8 +110,9 @@ namespace AudioCorrelation
         public AudioFile(string location,int sampleRates)
         {
             audioFile = new Mp3FileReader(location);
-            length = audioFile.TotalTime.TotalSeconds;
+            this.length = audioFile.TotalTime.TotalSeconds;
             this.sampleRates = sampleRates;
+            this.rawInputPoints = new List<double>();
             this.samplePoints = new List<double>();
             this.controlPoints = new List<double>();
             this.Update();
@@ -111,28 +125,34 @@ namespace AudioCorrelation
             short bitNum = BitConverter.ToInt16(buffer, START_INDEX);
             double volume = Math.Abs(bitNum / TWO_POW_16);
             double decibels = 20 * Math.Log10(volume);
+            if (double.IsInfinity(decibels))
+            {
+                decibels = double.MaxValue - 1;
+            }
             return decibels;
         }
 
         public List<double> GetTimeStampList()
         {
-        List<double> tempList = new List<double>();
-            for(int i = 0; i < 1200; i += 10){
+            for(int i = 0; i < SamplePoints.Count/Sensitivity; i++){
                 double max = 0.0;
                 double timeOfMax = 0.0;
-                for(int j = 0; j < 9; j++){
+                for(int j = 0; j < Sensitivity; j++){
                     double val = (samplePoints[i + j + 1]) - samplePoints[i + j];
-                    double time = (i + j) * (1 / sampleRates) * interval;
-                    double result = val / 0.1;
-                    if(max < result){
+                    double time = (10*i + j) * (1000.0 / sampleRates) * interval*sensitivity;
+                    double result =val/100;
+                    if(max <= result){
                         max = result;
                         timeOfMax = time;
+                        Console.WriteLine(10*i + " " + j + " " + (1000.0/sampleRates) + " " + interval + " " + sensitivity + "=" + (10 * i + j) * (1000.0 / sampleRates) * interval * sensitivity);
+                        Console.WriteLine((samplePoints[i + j + 1]) + " " + samplePoints[i + j]);
                     } 
                 }
-                tempList.Add(timeOfMax);
-                
+                controlPoints.Add(timeOfMax);
+                max = 0.0;
+                timeOfMax = 0.0;
             }
-            return tempList;
+            return controlPoints;
         }
 
         public void Update()
@@ -141,19 +161,23 @@ namespace AudioCorrelation
             int bytesRead;
             int total = 0;
             int count = 0;
-            int interval = 50;
+            int interval = this.Interval;
             this.SamplePoints = new();
             do
             {
                 bytesRead = this.audioFile.Read(buffer, 0, buffer.Length);
+                double calculatedDb = Math.Abs(CalculateDbs(buffer));
+                this.rawInputPoints.Add(calculatedDb);
                 if (count % interval == 0)
                 {
-                    this.SamplePoints.Add(Math.Abs(CalculateDbs(buffer)));
+                    this.SamplePoints.Add(calculatedDb);
                 }
                 total += bytesRead;
                 count++;
             } while (bytesRead > 0);
             //Debug.WriteLine(String.Format("Read {0} bytes", total));
+            Console.WriteLine("Total Raw Points: "+ this.rawInputPoints.Count);
+            Console.WriteLine("Total Sample Points: " + this.samplePoints.Count);
             this.GetTimeStampList();
         }
     }

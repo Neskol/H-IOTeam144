@@ -164,7 +164,10 @@ namespace AudioCorrelation
 
             foreach(KeyValuePair<double,double>p in this.SamplePoints)
             {
-                this.controlPoints.Add(p.Key);
+                if (p.Value==0)
+                {
+                    this.controlPoints.Add(p.Key);
+                }
             }
             return controlPoints;
         }

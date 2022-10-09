@@ -114,12 +114,28 @@ namespace AudioCorrelation
 
         public List<double> GetTimeStampList()
         {
-            throw new NotImplementedException();
+        List<double> tempList = new List<double>();
+            for(int i = 0; i < 1200; i += 10){
+                double max = 0.0;
+                double timeOfMax = 0.0;
+                for(int j = 0; j < 9; j++){
+                    double val = (samplePoints[i + j + 1]) - samplePoints[i + j];
+                    double time = (i + j) * (1 / sampleRates) * interval;
+                    double result = val / 0.1;
+                    if(max < result){
+                        max = result;
+                        timeOfMax = time;
+                    } 
+                }
+                tempList.Add(timeOfMax);
+                
+            }
+            return tempList;
         }
 
         public void Update()
         {
-            this.GetTimeStampList();
+             this.GetTimeStampList();
         }
     }
 }
